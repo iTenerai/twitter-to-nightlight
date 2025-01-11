@@ -19,9 +19,7 @@ function squeezeNightlightIn() {
       </div><div class="css-175oi2r r-16y2uox r-1wbh5a2"><div dir="ltr" class="css-146c3p1 r-bcqeeo r-1ttztb7 r-qvutc0 r-37j5jr r-a023e6 r-rjixqe r-b88u0q" style="color: rgb(231, 233, 234);"><span class="css-1jxf684 r-bcqeeo r-1ttztb7 r-qvutc0 r-poiln3">Nightlight</span></div></div></div>`
   
       // Add click event listener
-      icon.addEventListener('click', () => {
-        alert('Custom action clicked!');
-      });
+      icon.addEventListener('click', repostToNightlight(this));
   
       // Append the custom icon after other share methods
       post.appendChild(icon);
@@ -34,4 +32,9 @@ function squeezeNightlightIn() {
   // Observe for dynamically loaded tweets
   const observer = new MutationObserver(squeezeNightlightIn);
   observer.observe(document.body, { childList: true, subtree: true });
+
+  function repostToNightlight(element){
+    console.log("Reposting to Nightlight");
+    console.log(element);
+  }
   
