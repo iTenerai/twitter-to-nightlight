@@ -1,12 +1,11 @@
 function squeezeNightlightIn() {
-    // Target the share button container
+    // Target the retweet button container
     const posts = document.querySelectorAll('[data-testid="Dropdown"]');
   
     posts.forEach((post) => {
-      // Avoid adding the icon multiple times
+      // Avoid adding the button multiple times
       if (post.querySelector('.nightlight-repost')) return;
   
-      // Create the custom icon element
       const icon = document.createElement('div');
       icon.title = 'Nightlight Repost';
       icon.className = 'nightlight-repost';
@@ -24,7 +23,7 @@ function squeezeNightlightIn() {
         alert('Custom action clicked!');
       });
   
-      // Append the custom icon after the share button
+      // Append the custom icon after other share methods
       post.appendChild(icon);
     });
   }
