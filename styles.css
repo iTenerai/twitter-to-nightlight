@@ -1,9 +1,9 @@
-.custom-share-icon {
+.nightlight-repost {
     color: #1da1f2;
     /* Twitter blue color */
 }
 
-.custom-share-icon:hover {
+.nightlight-repost:hover {
     color: #0d8bce;
     /* Slightly darker blue */
 }

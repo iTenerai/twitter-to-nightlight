@@ -1,15 +1,15 @@
-function addCustomIcon() {
+function squeezeNightlightIn() {
     // Target the share button container
     const posts = document.querySelectorAll('[data-testid="Dropdown"]');
   
     posts.forEach((post) => {
       // Avoid adding the icon multiple times
-      if (post.querySelector('.custom-share-icon')) return;
+      if (post.querySelector('.nightlight-repost')) return;
   
       // Create the custom icon element
       const icon = document.createElement('div');
       icon.title = 'Nightlight Repost';
-      icon.className = 'custom-share-icon';
+      icon.className = 'nightlight-repost';
       icon.style.cursor = 'pointer';
       icon.innerHTML = `<div role="menuitem" tabindex="2" class="css-175oi2r r-1loqt21 r-18u37iz r-1mmae3n r-3pj75a r-13qz1uu r-o7ynqc r-6416eg r-1ny4l3l" data-testid="nightlightConfirm"><div class="css-175oi2r r-1777fci r-faml9v">
       
@@ -30,9 +30,9 @@ function addCustomIcon() {
   }
   
   // Run the function on page load
-  addCustomIcon();
+  squeezeNightlightIn();
   
   // Observe for dynamically loaded tweets
-  const observer = new MutationObserver(addCustomIcon);
+  const observer = new MutationObserver(squeezeNightlightIn);
   observer.observe(document.body, { childList: true, subtree: true });
   
