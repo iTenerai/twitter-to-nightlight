@@ -1,0 +1,38 @@
+{
+    "manifest_version": 3,
+    "name": "Twitter to Nightlight",
+    "version": "1.0",
+    "description": "Adds a button to Twitter which lets you repost tweets directly to Nightlight with proper attribution.",
+    "permissions": [
+        "activeTab"
+    ],
+    "host_permissions": [
+        "https://twitter.com/*",
+        "https://x.com/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://twitter.com/*",
+                "https://x.com/*"
+            ],
+            "js": [
+                "content-script.js"
+            ],
+            "css": [
+                "styles.css"
+            ]
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "assets/logo_monochrome.png"
+            ],
+            "matches": [
+                "https://twitter.com/*",
+                "https://x.com/*"
+            ]
+        }
+    ]
+}

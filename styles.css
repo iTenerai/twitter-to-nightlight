@@ -1,0 +1,9 @@
+.custom-share-icon {
+    color: #1da1f2;
+    /* Twitter blue color */
+}
+
+.custom-share-icon:hover {
+    color: #0d8bce;
+    /* Slightly darker blue */
+}
