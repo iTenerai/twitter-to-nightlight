@@ -32,6 +32,7 @@ function squeezeNightlightIn() {
 
     // Target the retweet button container
     const posts = document.querySelectorAll('[data-testid="Dropdown"]');
+    const dropdownBackground = document.getElementsByClassName("css-175oi2r r-1p0dtai r-1d2f490 r-1xcajam r-zchlnj r-ipm5af")[0];
 
     posts.forEach((post) => {
         // Avoid adding the button multiple times
@@ -47,17 +48,15 @@ function squeezeNightlightIn() {
       <img src="` + browser.runtime.getURL('assets/logo_monochrome.png') + `" alt="Nightlight Repost" width="24" height="24" class="class="r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1nao33i r-1q142lx"">
       </div><div class="css-175oi2r r-16y2uox r-1wbh5a2"><div dir="ltr" class="css-146c3p1 r-bcqeeo r-1ttztb7 r-qvutc0 r-37j5jr r-a023e6 r-rjixqe r-b88u0q" style="color: rgb(231, 233, 234);"><span class="css-1jxf684 r-bcqeeo r-1ttztb7 r-qvutc0 r-poiln3">Nightlight</span></div></div></div>`
 
-        // Add click event listener
         icon.addEventListener('click', () => {
             repostToNightlight(currentPost);
+            dropdownBackground.click();
         });
 
-        // Append the custom icon after other share methods
         post.appendChild(icon);
     });
 }
 
-// Run the function on page load
 squeezeNightlightIn();
 fetchData();
 
@@ -67,7 +66,7 @@ observer.observe(document.body, { childList: true, subtree: true });
 
 function repostToNightlight(element) {
 
-    var type = 1; // 0 = text, 1 = picture/gif, 2 = video
+    var type = 1; // 0 = text, 1 = picture, 2 = video/gif (currently only text and picture are supported)
 
     console.log(prefix + "Reposting to Nightlight");
 
@@ -97,10 +96,20 @@ function repostToNightlight(element) {
     console.log(prefix + "Text: ", text);
     console.log(prefix + "Author: ", author);
 
-    var requestURL = encodeURI(`http://localhost/nlapi/nlapi2?login=${login}&password=${password}&createPost={"description": "${text}", "picture": "${picture}", "author": "${author}"}&provider=twitter`);
+    var postData = {
+        description: text,
+        picture: picture,
+        author: author,
+    };
+
+    var requestURL = `https://night-light.cz/nlapi/nlapi2?` +
+        `login=${encodeURIComponent(login)}&` +
+        `password=${encodeURIComponent(password)}&` +
+        `createPost=${encodeURIComponent(JSON.stringify(postData))}&` +
+        `provider=twitter`;
 
     chrome.runtime.sendMessage(
-        { type: "sendRequest", requestURL: requestURL },  // Send an object containing the type and requestURL
+        { type: "sendRequest", requestURL: requestURL },
         function (response) {
             console.log(prefix + "Response from Nightlight: ", response);
         }
@@ -108,26 +117,17 @@ function repostToNightlight(element) {
 
 }
 
-function getCookies(name, callback) {
-    chrome.cookies.get({
-        "url": "localhost",
-        "name": name
-    }, function (cookie) {
-        if (callback) {
-            if (cookie === null) {
-                callback(null)
-            } else {
-                callback(cookie.value);
-            }
-        }
-    });
-}
-
 function fetchData() {
-    getCookies("password", function (id) {
-        password = id;
-    });
-    getCookies("login", function (id) {
-        login = id;
-    });
+    chrome.runtime.sendMessage(
+        { type: "cookieRequest", name: "password" },
+        function (response) {
+            password = response;
+        }
+    );
+    chrome.runtime.sendMessage(
+        { type: "cookieRequest", name: "username" },
+        function (response) {
+            login = response;
+        }
+    );
 }
