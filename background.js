@@ -15,6 +15,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 data = JSON.parse(this.responseText);
             } catch (error) {
                 console.log("Error parsing JSON response:", error);
+                chrome.notifications.create({
+                    type: "basic",
+                    iconUrl: browser.runtime.getURL('assets/nightycry.png'),
+                    title: "Failed to repost to Nightlight",
+                    message: "Please check if you are logged in to Nightlight, try again later or contact support with this error: " + data['message'],
+                });
                 return true;
             }
 
@@ -23,7 +29,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 sendResponse({ success: false, message: data['message'] });
                 chrome.notifications.create({
                     type: "basic",
-                    iconUrl: browser.runtime.getURL('assets/logo_monochrome.png'),
+                    iconUrl: browser.runtime.getURL('assets/nightycry.png'),
                     title: "Failed to repost to Nightlight",
                     message: "Please check if you are logged in to Nightlight, try again later or contact support with this error: " + data['message'],
                 });
