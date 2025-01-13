@@ -3,6 +3,11 @@
     "name": "Twitter to Nightlight",
     "version": "1.0",
     "description": "Adds a button to Twitter which lets you repost tweets directly to Nightlight with proper attribution.",
+    "homepage_url": "https://github.com/iTenerai/twitter-to-nightlight",
+    "icons": {
+      "38": "assets/38.png",
+      "128": "assets/128.png"
+    },
     "permissions": [
         "cookies",
         "activeTab",
