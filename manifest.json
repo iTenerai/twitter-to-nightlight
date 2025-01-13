@@ -11,7 +11,6 @@
     "permissions": [
         "cookies",
         "activeTab",
-        "tabs",
         "notifications"
     ],
     "host_permissions": [
