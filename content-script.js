@@ -5,11 +5,6 @@
     It adds a "Nightlight" button to the retweet dropdown menu on Twitter.
 
     Made with <3 by iTenerai (https://night-light.cz/u/itenerai)
-
-    DEVELOPMENT NOTES:
-    -----------------
-    - The extension is currently in development and is not yet functional.
-    - Some things here dont really make sense but they will be improved later trust
     
 */
 
