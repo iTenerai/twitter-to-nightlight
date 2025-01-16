@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Twitter to Nightlight",
-    "version": "1.0",
+    "version": "1.1",
     "description": "Adds a button to Twitter which lets you repost tweets directly to Nightlight with proper attribution.",
     "homepage_url": "https://github.com/iTenerai/twitter-to-nightlight",
     "icons": {
