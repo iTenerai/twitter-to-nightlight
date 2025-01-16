@@ -10,7 +10,6 @@
     },
     "permissions": [
         "cookies",
-        "activeTab",
         "notifications"
     ],
     "host_permissions": [
