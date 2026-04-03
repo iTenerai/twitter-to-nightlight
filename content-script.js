@@ -10,9 +10,9 @@
 
 const prefix = "[Nightlight Repost Debug]: ";
 
-var currentPost = null;
-var login = "";
-var password = "";
+let currentPost = null;
+let login = "";
+let token = "";
 
 function squeezeNightlightIn() {
 
@@ -61,12 +61,12 @@ observer.observe(document.body, { childList: true, subtree: true });
 
 function repostToNightlight(element) {
 
-    var type = 1; // 0 = text, 1 = picture, 2 = video/gif (currently only text and picture are supported)
+    let type = 1; // 0 = text, 1 = picture, 2 = video/gif (currently only text and picture are supported)
 
     console.log(prefix + "Reposting to Nightlight");
 
-    var picture = "";
-    var text = "";
+    let picture = "";
+    let text = "";
 
     if (element.querySelector('[data-testid="tweetPhoto"]') == null) {
         console.log(prefix + "No picture found, adjusting to text-only repost");
@@ -85,26 +85,25 @@ function repostToNightlight(element) {
     }
 
     // Get the author of the tweet, as a link
-    var author = element.querySelector('[data-testid="User-Name"]').querySelector('[role="link"]').href;
+    let author = element.querySelector('[data-testid="User-Name"]').querySelector('[role="link"]').href;
 
     console.log(prefix + "Picture: ", picture);
     console.log(prefix + "Text: ", text);
     console.log(prefix + "Author: ", author);
 
-    var postData = {
+    let postData = {
         description: text,
-        picture: picture,
         author: author,
+        category: "other",
+        visibility: 0,
+        views: 0,
+        //todo:
+        provider: "twitter",
+        files: picture
     };
 
-    var requestURL = `https://night-light.cz/nlapi/nlapi2?` +
-        `login=${encodeURIComponent(login)}&` +
-        `password=${encodeURIComponent(password)}&` +
-        `createPost=${encodeURIComponent(JSON.stringify(postData))}&` +
-        `provider=twitter`;
-
     chrome.runtime.sendMessage(
-        { type: "sendRequest", requestURL: requestURL },
+        { type: "sendRequest", data: postData },
         function (response) {
             console.log(prefix + "Response from Nightlight: ", response);
         }
@@ -114,9 +113,9 @@ function repostToNightlight(element) {
 
 function fetchData() {
     chrome.runtime.sendMessage(
-        { type: "cookieRequest", name: "password" },
+        { type: "cookieRequest", name: "token" },
         function (response) {
-            password = response;
+            token = response;
         }
     );
     chrome.runtime.sendMessage(

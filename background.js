@@ -3,19 +3,11 @@ const prefix = "[Nightlight Repost Debug]: ";
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "sendRequest") {
 
-        const xhttp = new XMLHttpRequest();
-        xhttp.onloadstart = function () {
-            console.log(prefix + "Sending repost data to Nightlight");
-        };
-        xhttp.onload = function () {
-
-            var data;
-            try {
-                data = JSON.parse(this.responseText);
-            } catch (error) {
-                return true;
-            }
-
+        fetch("https://night-light.cz/nlapi/post", {
+            method: "POST",
+            credentials: true,
+            body: message.postData
+        }).then(data => data.json()).then(data => {
             if (data['status'] == 0) {
                 sendResponse({ success: false, message: data['message'] });
                 chrome.notifications.create({
@@ -36,16 +28,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 });
                 return true;
             }
-        };
-
-        xhttp.onerror = function () {
-            sendResponse({ success: false, message: "Request failed" });
-            return true;
-        };
-
-        xhttp.open("GET", message.requestURL);
-        xhttp.send();
-        return true;
+        });
     }
     if(message.type === "cookieRequest") {
         getCookies(message.name, function(cookie) {
